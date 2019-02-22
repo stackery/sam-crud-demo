@@ -17,35 +17,20 @@ Here is an overview of the files:
 ├── README.md                          <-- This README file
 ├── src                                <-- Source code dir for all AWS Lambda functions
 │   ├── createUser                     <-- Source code dir for createUser function
-│   │   ├── build.gradle               <-- Gradle dependencies for createUser
-│   │   └── src
-│   │       └── main
-│   │           └── java
-│   │               └── Handler.java   <-- Lambda createUser function code
+│   │   ├── package.json               <-- Build dependencies for createUser
+│   |   └── index.js                   <-- Lambda createUser function code 
 │   ├── getUser                        <-- Source code dir for getUser function
-│   │   ├── build.gradle               <-- Gradle dependencies for getUser
-│   │   └── src
-│   │       └── main
-│   │           └── java
-│   │               └── Handler.java   <-- Lambda getUser function code
+│   │   ├── package.json               <-- Build dependencies for getUser
+│   |   └── index.js                   <-- Lambda getUser function code 
 │   ├── updateUser                     <-- Source code dir for updateUser function
-│   │   ├── build.gradle               <-- Gradle dependencies for updateUser
-│   │   └── src
-│   │       └── main
-│   │           └── java
-│   │               └── Handler.java   <-- Lambda updateUser function code
+│   │   ├── package.json               <-- Build dependencies for updateUser
+│   |   └── index.js                   <-- Lambda updateUser function code 
 │   ├── deleteUser                     <-- Source code dir for deleteUser function
-│   │   ├── build.gradle               <-- Gradle dependencies for deleteUser
-│   │   └── src
-│   │       └── main
-│   │           └── java
-│   │               └── Handler.java   <-- Lambda deleteUser function code
+│   │   ├── package.json               <-- Build dependencies for deleteUser
+│   |   └── index.js                   <-- Lambda deleteUser function code 
 │   └── listUsers                      <-- Source code dir for listUsers function
-│       ├── build.gradle               <-- Gradle dependencies for listUsers
-│       └── src
-│           └── main
-│               └── java
-│                   └── Handler.java   <-- Lambda listUsers function code
+│       ├── package.json               <-- Build dependencies for listUsers
+│       └── index.js                   <-- Lambda listUsers function code 
 └── template.yaml                      <-- SAM infrastructure-as-code template
 ```
 
