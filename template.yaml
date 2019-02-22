@@ -70,7 +70,7 @@ Resources:
           TABLE_NAME: !Ref usersTable
           TABLE_ARN: !GetAtt usersTable.Arn
       Events:
-        api3FEE112A:
+        apiGETusersid:
           Type: Api
           Properties:
             Path: /users/{id}
@@ -100,7 +100,7 @@ Resources:
           TABLE_NAME: !Ref usersTable
           TABLE_ARN: !GetAtt usersTable.Arn
       Events:
-        api3FEE112A:
+        apiPUTusersid:
           Type: Api
           Properties:
             Path: /users/{id}
@@ -130,7 +130,7 @@ Resources:
           TABLE_NAME: !Ref usersTable
           TABLE_ARN: !GetAtt usersTable.Arn
       Events:
-        api3FEE112A:
+        apiPOSTusers:
           Type: Api
           Properties:
             Path: /users
@@ -160,7 +160,7 @@ Resources:
           TABLE_NAME: !Ref usersTable
           TABLE_ARN: !GetAtt usersTable.Arn
       Events:
-        api3FEE112A:
+        apiDELETEusersid:
           Type: Api
           Properties:
             Path: /users/{id}
@@ -190,7 +190,7 @@ Resources:
           TABLE_NAME: !Ref usersTable
           TABLE_ARN: !GetAtt usersTable.Arn
       Events:
-        api3FEE112A:
+        apiGETusers:
           Type: Api
           Properties:
             Path: /users
