@@ -57,7 +57,7 @@ Resources:
         - ResourceName: getUser
       CodeUri: src/getUser
       Handler: index.handler
-      Runtime: nodejs8.10
+      Runtime: nodejs10.x
       MemorySize: 3008
       Timeout: 30
       Tracing: Active
@@ -87,7 +87,7 @@ Resources:
         - ResourceName: updateUser
       CodeUri: src/updateUser
       Handler: index.handler
-      Runtime: nodejs8.10
+      Runtime: nodejs10.x
       MemorySize: 3008
       Timeout: 30
       Tracing: Active
@@ -117,7 +117,7 @@ Resources:
         - ResourceName: createUser
       CodeUri: src/createUser
       Handler: index.handler
-      Runtime: nodejs8.10
+      Runtime: nodejs10.x
       MemorySize: 3008
       Timeout: 30
       Tracing: Active
@@ -147,7 +147,7 @@ Resources:
         - ResourceName: deleteUser
       CodeUri: src/deleteUser
       Handler: index.handler
-      Runtime: nodejs8.10
+      Runtime: nodejs10.x
       MemorySize: 3008
       Timeout: 30
       Tracing: Active
@@ -177,7 +177,7 @@ Resources:
         - ResourceName: listUsers
       CodeUri: src/listUsers
       Handler: index.handler
-      Runtime: nodejs8.10
+      Runtime: nodejs10.x
       MemorySize: 3008
       Timeout: 30
       Tracing: Active
