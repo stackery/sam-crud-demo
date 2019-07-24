@@ -1,0 +1,298 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Stackery Serverless CRUD API Demo
+Outputs:
+  DeploymentHistoryTag:
+    Description: Stackery Deployment History Tag
+    Value: 6ANY02
+Parameters:
+  StackeryEnvironmentAPIGatewayStageName:
+    Default: demo
+    Description: Environment name used for API Gateway Stage names (injected by Stackery
+      at deployment time)
+    Type: String
+  StackeryEnvironmentTagName:
+    Default: demo
+    Description: Environment Name (injected by Stackery at deployment time)
+    Type: String
+  StackeryStackTagName:
+    Default: sam-crud-demo
+    Description: Stack Name (injected by Stackery at deployment time)
+    Type: String
+Resources:
+  DeploymentMarkerTag6ANY02:
+    Type: AWS::CloudFormation::WaitConditionHandle
+  api:
+    DependsOn: DeploymentMarkerTag6ANY02
+    Metadata:
+      StackeryName: /users
+    Properties:
+      DefinitionBody:
+        info: {}
+        paths:
+          /users:
+            get:
+              responses: {}
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri:
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${listUsers.Arn}/invocations
+            post:
+              responses: {}
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri:
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${createUser.Arn}/invocations
+          /users/{id}:
+            delete:
+              responses: {}
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri:
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${deleteUser.Arn}/invocations
+            get:
+              responses: {}
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri:
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${getUser.Arn}/invocations
+            put:
+              responses: {}
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri:
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${updateUser.Arn}/invocations
+        swagger: '2.0'
+      EndpointConfiguration: REGIONAL
+      Name:
+        Fn::Sub:
+        - ${ResourceName} From Stackery Stack ${StackeryStackTagName} Environment
+          ${StackeryEnvironmentTagName}
+        - ResourceName: /users
+      StageName:
+        Ref: StackeryEnvironmentAPIGatewayStageName
+    Type: AWS::Serverless::Api
+  createUser:
+    DependsOn: DeploymentMarkerTag6ANY02
+    Metadata:
+      StackeryName: createUser
+    Properties:
+      CodeUri: s3://stackery-assetsbucket-ukaf9cb6fuco/deployments/demo/sam-crud-demo/2019-07-24T20:41:38.267Z/8ffd0325794b948dc8b3dfe4dd145ab9
+      Description:
+        Fn::Sub:
+        - Stackery Stack ${StackeryStackTagName} Environment ${StackeryEnvironmentTagName}
+          Function ${ResourceName}
+        - ResourceName: createUser
+      Environment:
+        Variables:
+          TABLE_ARN:
+            Fn::GetAtt:
+            - usersTable
+            - Arn
+          TABLE_NAME:
+            Ref: usersTable
+      Events:
+        apiPOSTusers:
+          Properties:
+            Method: POST
+            Path: /users
+            RestApiId:
+              Ref: api
+          Type: Api
+      FunctionName:
+        Fn::Sub: ${AWS::StackName}-createUser
+      Handler: index.handler
+      MemorySize: 3008
+      Policies:
+      - AWSXrayWriteOnlyAccess
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: usersTable
+      Runtime: nodejs10.x
+      Timeout: 30
+      Tracing: Active
+    Type: AWS::Serverless::Function
+  deleteUser:
+    DependsOn: DeploymentMarkerTag6ANY02
+    Metadata:
+      StackeryName: deleteUser
+    Properties:
+      CodeUri: s3://stackery-assetsbucket-ukaf9cb6fuco/deployments/demo/sam-crud-demo/2019-07-24T20:41:38.267Z/b501c59d0c5b6e765296b30cd8767c96
+      Description:
+        Fn::Sub:
+        - Stackery Stack ${StackeryStackTagName} Environment ${StackeryEnvironmentTagName}
+          Function ${ResourceName}
+        - ResourceName: deleteUser
+      Environment:
+        Variables:
+          TABLE_ARN:
+            Fn::GetAtt:
+            - usersTable
+            - Arn
+          TABLE_NAME:
+            Ref: usersTable
+      Events:
+        apiDELETEusersid:
+          Properties:
+            Method: DELETE
+            Path: /users/{id}
+            RestApiId:
+              Ref: api
+          Type: Api
+      FunctionName:
+        Fn::Sub: ${AWS::StackName}-deleteUser
+      Handler: index.handler
+      MemorySize: 3008
+      Policies:
+      - AWSXrayWriteOnlyAccess
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: usersTable
+      Runtime: nodejs10.x
+      Timeout: 30
+      Tracing: Active
+    Type: AWS::Serverless::Function
+  getUser:
+    DependsOn: DeploymentMarkerTag6ANY02
+    Metadata:
+      StackeryName: getUser
+    Properties:
+      CodeUri: s3://stackery-assetsbucket-ukaf9cb6fuco/deployments/demo/sam-crud-demo/2019-07-24T20:41:38.267Z/b9575cc7f2b21f623d7455d678a0e7a1
+      Description:
+        Fn::Sub:
+        - Stackery Stack ${StackeryStackTagName} Environment ${StackeryEnvironmentTagName}
+          Function ${ResourceName}
+        - ResourceName: getUser
+      Environment:
+        Variables:
+          TABLE_ARN:
+            Fn::GetAtt:
+            - usersTable
+            - Arn
+          TABLE_NAME:
+            Ref: usersTable
+      Events:
+        apiGETusersid:
+          Properties:
+            Method: GET
+            Path: /users/{id}
+            RestApiId:
+              Ref: api
+          Type: Api
+      FunctionName:
+        Fn::Sub: ${AWS::StackName}-getUser
+      Handler: index.handler
+      MemorySize: 3008
+      Policies:
+      - AWSXrayWriteOnlyAccess
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: usersTable
+      Runtime: nodejs10.x
+      Timeout: 30
+      Tracing: Active
+    Type: AWS::Serverless::Function
+  listUsers:
+    DependsOn: DeploymentMarkerTag6ANY02
+    Metadata:
+      StackeryName: listUsers
+    Properties:
+      CodeUri: s3://stackery-assetsbucket-ukaf9cb6fuco/deployments/demo/sam-crud-demo/2019-07-24T20:41:38.267Z/bf075ee6f1f06248c63287b0097b37e4
+      Description:
+        Fn::Sub:
+        - Stackery Stack ${StackeryStackTagName} Environment ${StackeryEnvironmentTagName}
+          Function ${ResourceName}
+        - ResourceName: listUsers
+      Environment:
+        Variables:
+          TABLE_ARN:
+            Fn::GetAtt:
+            - usersTable
+            - Arn
+          TABLE_NAME:
+            Ref: usersTable
+      Events:
+        apiGETusers:
+          Properties:
+            Method: GET
+            Path: /users
+            RestApiId:
+              Ref: api
+          Type: Api
+      FunctionName:
+        Fn::Sub: ${AWS::StackName}-listUsers
+      Handler: index.handler
+      MemorySize: 3008
+      Policies:
+      - AWSXrayWriteOnlyAccess
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: usersTable
+      Runtime: nodejs10.x
+      Timeout: 30
+      Tracing: Active
+    Type: AWS::Serverless::Function
+  updateUser:
+    DependsOn: DeploymentMarkerTag6ANY02
+    Metadata:
+      StackeryName: updateUser
+    Properties:
+      CodeUri: s3://stackery-assetsbucket-ukaf9cb6fuco/deployments/demo/sam-crud-demo/2019-07-24T20:41:38.267Z/913c0da4c11a8dcaa45bcb3f3850ebb4
+      Description:
+        Fn::Sub:
+        - Stackery Stack ${StackeryStackTagName} Environment ${StackeryEnvironmentTagName}
+          Function ${ResourceName}
+        - ResourceName: updateUser
+      Environment:
+        Variables:
+          TABLE_ARN:
+            Fn::GetAtt:
+            - usersTable
+            - Arn
+          TABLE_NAME:
+            Ref: usersTable
+      Events:
+        apiPUTusersid:
+          Properties:
+            Method: PUT
+            Path: /users/{id}
+            RestApiId:
+              Ref: api
+          Type: Api
+      FunctionName:
+        Fn::Sub: ${AWS::StackName}-updateUser
+      Handler: index.handler
+      MemorySize: 3008
+      Policies:
+      - AWSXrayWriteOnlyAccess
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: usersTable
+      Runtime: nodejs10.x
+      Timeout: 30
+      Tracing: Active
+    Type: AWS::Serverless::Function
+  usersTable:
+    DependsOn: DeploymentMarkerTag6ANY02
+    Metadata:
+      StackeryName: Users
+    Properties:
+      AttributeDefinitions:
+      - AttributeName: id
+        AttributeType: S
+      KeySchema:
+      - AttributeName: id
+        KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 5
+        WriteCapacityUnits: 5
+      StreamSpecification:
+        StreamViewType: NEW_AND_OLD_IMAGES
+      TableName:
+        Fn::Sub: ${AWS::StackName}-usersTable
+    Type: AWS::DynamoDB::Table
+Transform: AWS::Serverless-2016-10-31
