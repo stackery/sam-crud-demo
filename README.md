@@ -1,4 +1,4 @@
-# Stackery CRUD Demo - NodeJS 8.10
+# Stackery CRUD Demo - NodeJS 10.x
 
 This is a sample template for a serverless AWS Lambda application, written in JavaScript.
 
