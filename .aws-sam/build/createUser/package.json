@@ -1,8 +1,0 @@
-{
-  "name": "createuser",
-  "version": "1.0.0",
-  "private": true,
-  "dependencies": {
-    "aws-sdk": "~2"
-  }
-}

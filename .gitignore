@@ -1,0 +1,6 @@
+# local build directories
+.aws-sam
+.stackery
+
+# dependencies
+node_modules
